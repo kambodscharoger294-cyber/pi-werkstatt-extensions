@@ -185,18 +185,16 @@ export default function (pi: ExtensionAPI) {
 					errors.push(`${provider}: ${err instanceof Error ? err.message : String(err)}`);
 				}
 			}
-			return {
-				content: [{
-					type: "text",
-					text: "Websuche fehlgeschlagen:\n" + errors.join("\n") +
-						"\n\nHinweis: Ist der API-Key im Schlüsselbund? Anlegen mit:\n" +
-						'  security add-generic-password -s pi-exa -a "$USER" -w\n' +
-						'  security add-generic-password -s pi-parallel -a "$USER" -w\n' +
-						"Status prüfen: /websearch-status",
-				}],
-				details: { errors },
-				isError: true,
-			};
+			// Nur throw setzt isError auf dem Tool-Result (pi-Doku: Returning a
+			// value never sets the error flag). Der Hinweistext bleibt Teil der
+			// Fehlermeldung, damit das Modell den Nutzer hinweisen kann.
+			throw new Error(
+				"Websuche fehlgeschlagen:\n" + errors.join("\n") +
+				"\n\nHinweis: Ist der API-Key im Schlüsselbund? Anlegen mit:\n" +
+				'  security add-generic-password -s pi-exa -a "$USER" -w\n' +
+				'  security add-generic-password -s pi-parallel -a "$USER" -w\n' +
+				"Status prüfen: /websearch-status"
+			);
 		},
 	});
 
