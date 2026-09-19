@@ -1,0 +1,18 @@
+{
+  "name": "pi-werkstatt-extensions",
+  "version": "0.1.0",
+  "description": "Werkstatt-Extensions für pi: destructive-guard (Katastrophen-Schutz), done-notify + confirm-notify (Mac-Meldungen), web-search (Exa + Parallel), backup-hook (Auto-Backup).",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "extensions",
+    "safety",
+    "notifications",
+    "web-search"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "pi": {
+    "extensions": ["./extensions"]
+  }
+}
