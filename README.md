@@ -12,7 +12,7 @@ Abhängigkeiten.
 | `done-notify.ts` | macOS-Meldung „Fertig 🙂“ (mit Ton), wenn pi auf Eingabe wartet; Terminal-Fallback (OSC 777). Commands: `/notify-sound`, `/notify-test`. Konfiguration: `~/.pi/agent/done-notify.json` |
 | `confirm-notify.ts` | macOS-Meldung „Hilfe 👋“, wenn pi auf Bestätigung wartet (blockierender Dialog) — verpasst kein „ja oder nein klicken“ mehr. |
 | `web-search.ts` | Websuche über **Exa** und/oder **Parallel**. Keys liegen sicher im macOS-Schlüsselbund (`pi-exa`, `pi-parallel`) — niemals im Klartext. |
-| `backup-hook.ts` | Sichert nach jeder pi-Sitzung die Anpassungen (Extensions, Themes, Prompts, Skills, Settings, mnemon) — höchstens alle 10 Minuten. Erwartet ein `~/pi-anpassungen/backup.sh` (generische Vorlage im Starter-Kit: `install.sh --with-backup`). |
+| `backup-hook.ts` | Führt nach jeder pi-Sitzung ein eigenes Backup-Skript aus (früher alle 10 Minuten höchstens, Debounce über eine Stamp-Datei). Eine generische Vorlage liegt bei `backup/backup.sh` im Repo. Ohne Skript tut die Extension nichts — sie ist optional. |
 
 ## Installieren
 
@@ -30,8 +30,21 @@ Ein-/ausschalten pro Extension: `pi config` (Tab schaltet global/projekt).
   security add-generic-password -s pi-exa -a "$USER" -w
   security add-generic-password -s pi-parallel -a "$USER" -w
   ```
-- backup-hook ist **optional**: nur nützlich, wenn ein `~/pi-anpassungen/backup.sh`
-  existiert (Starter-Kit legt eine generische Vorlage an)
+- `backup-hook` ist **optional** und kommt ohne eigenes Skript aus. Es ruft
+  `~/pi-anpassungen/backup.sh` auf, sobald die Sitzung endet (höchstens alle 10 Minuten).
+  Generische Vorlage aus diesem Repo einbauen — die liegt nach `pi install` unter
+  `~/.pi/agent/git/github.com/kambodscharoger294-cyber/pi-werkstatt-extensions/backup/backup.sh`:
+  ```bash
+  mkdir -p ~/pi-anpassungen
+  cp ~/.pi/agent/git/github.com/kambodscharoger294-cyber/pi-werkstatt-extensions/backup/backup.sh \
+     ~/pi-anpassungen/backup.sh
+  chmod +x ~/pi-anpassungen/backup.sh
+  ```
+  **Wichtig:** Das Skript muss die Stamp-Datei `~/pi-anpassungen/.last-backup` selbst
+  schreiben — und zwar erst nach erfolgreichem Abschluss. Die Vorlage macht das so;
+  wer sein eigenes schreibt, muss es mitmachen, sonst wiederholt der Hook das Backup
+  bei jedem Sitzungswechsel. Eigene Projekte einfach als weitere `items[]`-Einträge
+  in der Vorlage ergänzen.
 
 ## Herkunft
 
