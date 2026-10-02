@@ -8,7 +8,7 @@ Abhängigkeiten.
 
 | Extension | Was sie tut |
 |---|---|
-| `destructive-guard.ts` | Zwei Schichten: **(1)** Nachfrage bei seltenen, aber katastrophalen Bash-Befehlen (rm -rf auf Systempfaden/`$HOME`, Git-Härtefälle). **(2)** Schreibpfade per `write`/`edit` **und** per Bash-Umleitung/`tee`/`cp`/`mv`: ohne Nachfrage innerhalb von `~/.pi` und des aktuellen Projekts, Nachfrage außerhalb. `~/.ssh`, `~/.gnupg`, `~/.aws`, `~/.kube`, Shell-RCs und `.git`-Interna bleiben auch dort geschützt. Alltags-`rm` bleibt unbehelligt. |
+| `destructive-guard.ts` | Zwei Schichten: **(1)** Nachfrage bei seltenen, aber katastrophalen Bash-Befehlen (rm -rf auf Systempfaden/`$HOME`, Git-Härtefälle). **(2)** Schreibpfade per `write`/`edit` **und** per Bash-Umleitung/`tee`/`cp`/`mv`: ohne Nachfrage innerhalb von `~/.pi` und des aktuellen Projekts, sonst Auswahl mit **Vorauswahl „freigeben“**: einmalig ausführen, **Verzeichnis für diese Session freigeben** oder **dauerhaft freigeben** (`~/.pi/agent/write-allowlist.json`, gilt auch in künftigen Sessions; `/freigaben` listet und entfernt Einträge). `~/.ssh`, `~/.gnupg`, `~/.aws`, `~/.kube`, Shell-RCs und `.git`-Interna bleiben auch in freigegebenen Verzeichnissen geschützt. Alltags-`rm` bleibt unbehelligt. |
 | `done-notify.ts` | macOS-Meldung „Fertig 🙂“ (mit Ton), wenn pi auf Eingabe wartet; Terminal-Fallback (OSC 777). Commands: `/notify-sound`, `/notify-test`. Konfiguration: `~/.pi/agent/done-notify.json` |
 | `confirm-notify.ts` | macOS-Meldung „Hilfe 👋“, wenn pi auf Bestätigung wartet (blockierender Dialog) — verpasst kein „ja oder nein klicken“ mehr. |
 | `web-search.ts` | Websuche über **Exa** und/oder **Parallel**. Keys liegen sicher im macOS-Schlüsselbund (`pi-exa`, `pi-parallel`) — niemals im Klartext. |

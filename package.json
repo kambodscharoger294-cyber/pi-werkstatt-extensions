@@ -12,7 +12,16 @@
   ],
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "test": "bun test"
+  },
   "pi": {
-    "extensions": ["./extensions"]
+    "extensions": [
+      "./extensions/destructive-guard.ts",
+      "./extensions/done-notify.ts",
+      "./extensions/confirm-notify.ts",
+      "./extensions/web-search.ts",
+      "./extensions/backup-hook.ts"
+    ]
   }
 }
